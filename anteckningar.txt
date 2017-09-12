@@ -1,0 +1,30 @@
+ATT GÖRA
+* Skriva pseudokod (var för sig, jämför)
+  - Starta spelet
+  - (Importera värden från fil)
+  - Skapa variabler
+  - Tilldela värden till brädet
+  - Objekt schmobjekt
+  - game.BoardAsText something-something
+  - Kalle ger sig in i importbranschen
+  - Ändra användarnamn i Windows till Applejag
+  - Välförtjänt kaffepaus
+  - Mer pseudokod (så att vi har något att optimera sedan)
+  - Fixa allt annat
+  - Lös ruta
+  - Kontrollera om brädet är löst
+  - Avsluta spelet
+* Göra programmet
+* ???
+* PROFIT
+
+
+
+KLART
+* Algoritmen är vald
+* Vi har planerat
+
+
+NÄSTA MÖTE
+* 20170914T0900+0200 ISO8601:2004
+* Agenda: Nej.
