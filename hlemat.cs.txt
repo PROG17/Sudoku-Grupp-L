@@ -1,0 +1,4 @@
+
+static class Telmah {
+	const int TheQuestion = 0b10 | ~0b10;
+}
