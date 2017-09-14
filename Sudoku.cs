@@ -53,8 +53,26 @@ namespace Sudoku_Grupp_L
             {
                 possibleNumbers.Remove(number);
             }
-            
 
+            foreach (int number in this.GetImpossibleNumbersFromRow(y))
+            {
+                possibleNumbers.Remove(number);
+            }
+
+            foreach (int number in this.GetImpossibleNumbersFromBox(x, y))
+            {
+                possibleNumbers.Remove(number);
+            }
+
+            if (possibleNumbers.Count == 1)
+            {
+                this.gameBoard[x, y] = possibleNumbers[0];
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         /// <summary>Här finns information</summary>
@@ -74,9 +92,52 @@ namespace Sudoku_Grupp_L
             return impossibleNumbers;
         }
 
+        /// <summary>
+        /// Kollar siffror som finns i raden.
+        /// </summary>
+        /// <param name="y">the Row</param>
+        private List<int> GetImpossibleNumbersFromRow(int y)
+        {
+            List<int> impossibleNumbers = new List<int>();
+            for (int x = 0; x < 9; x++)
+            {
+                if (this.gameBoard[x, y] != 0)
+                {
+                    impossibleNumbers.Add(this.gameBoard[x, y]);
+                }                
+            }
+            return impossibleNumbers;
+        }
+
+        private List<int> GetImpossibleNumbersFromBox(int x, int y)
+        {
+            List<int> impossibleNumbers = new List<int>();
+            x = (x / 3) * 3;
+            y = (y / 3) * 3;
+
+            for (int yOffset = 0; yOffset < 3; yOffset++)
+            {
+                for (int xOffset = 0; xOffset < 3; xOffset++)
+                {
+                    int yReal = y + yOffset;
+                    int xReal = x + xOffset;
+                    if (this.gameBoard[xReal, yReal] !=0)
+                    {
+                        impossibleNumbers.Add(this.gameBoard[xReal, yReal]);
+                    }
+                }
+            }
+            return impossibleNumbers;
+        }
 
         public void PrintToScreen()
         {
+            const int width = 21;
+            const int height = 11;
+            int left = (Console.WindowWidth - width) / 2;
+            int top = (Console.WindowHeight - height) / 2;
+            Console.SetCursorPosition(left, top);
+
             for (int y = 0; y < 9; y++)
             {
                 for (int x = 0; x < 9; x++)
@@ -102,12 +163,11 @@ namespace Sudoku_Grupp_L
 
                 if ((y % 3 == 2) && (y != 8))
                 {
+                    Console.CursorLeft = left;
                     Console.WriteLine("---------------------");
-
                 }
 
-
-
+                Console.CursorLeft = left;
             }
         }
     }

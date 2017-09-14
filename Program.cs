@@ -14,12 +14,9 @@ namespace Sudoku_Grupp_L
                                      "008102900700000008006708200" +
                                      "002609500800203009005010300");
 
-            game.PrintToScreen();
 
-            /*
             game.Solve();
-            Console.WriteLine(game.BoardAsText);
-            */
+            game.PrintToScreen();
 
             Console.ReadLine();
         }
