@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace Sudoku_Grupp_L
 {
@@ -11,7 +12,8 @@ namespace Sudoku_Grupp_L
     class Sudoku
     {
         int[,] gameBoard = new int [9,9];
-
+        public bool Solved { get; private set; } = false;
+        public bool Processed { get; private set; } = false;
 
         public Sudoku(string numbersInput)
         {
@@ -27,17 +29,41 @@ namespace Sudoku_Grupp_L
 
         }
 
-        public void Solve()
+        public bool Solve()
         {
-            for (int y = 0; y < 9; y++)
+            bool anySolved = true;
+            bool allSolved = true;
+            Random gen = new Random();
+
+            while(anySolved)
             {
-                for (int x = 0; x < 9; x++)
+                anySolved = false;
+                allSolved = true;
+
+                for (int y = 0; y < 9; y++)
                 {
-
-                    this.TrySolve(x, y);
-
+                    for (int x = 0; x < 9; x++)
+                    {
+                        if(this.TrySolve(x, y))
+                        {
+                            anySolved = true;
+                            this.PrintToScreen();
+                            Thread.Sleep(gen.Next(50,250));
+                        }
+                        else if (this.gameBoard[x,y] == 0)
+                        {
+                            allSolved = false;
+                        }
+                    }
                 }
             }
+
+            this.Solved = allSolved;
+            this.Processed = true;
+
+            this.PrintToScreen();
+
+            return allSolved;
         }
 
 
@@ -139,6 +165,11 @@ namespace Sudoku_Grupp_L
 
         public void PrintToScreen()
         {
+            if (this.Processed)
+                Console.ForegroundColor = this.Solved ? ConsoleColor.Green : ConsoleColor.Red;
+            else
+                Console.ForegroundColor = ConsoleColor.Gray;
+
             const int width = 21;
             const int height = 11;
             int left = (Console.WindowWidth - width) / 2;
