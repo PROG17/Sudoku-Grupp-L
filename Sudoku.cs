@@ -40,6 +40,13 @@ namespace Sudoku_Grupp_L
             }
         }
 
+
+        /// <summary>
+        /// The MASCHIIIIINE
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
         private bool TrySolve(int x, int y)
         {
             if (this.gameBoard[x, y] != 0)
