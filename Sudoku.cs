@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Sudoku_Grupp_L
 {
+    using System.Security.Cryptography.X509Certificates;
 
     class Sudoku
     {
@@ -23,8 +24,56 @@ namespace Sudoku_Grupp_L
                 this.gameBoard[x, y] = parsedNumber;
 
             }
-            
+
         }
+
+        public void Solve()
+        {
+            for (int y = 0; y < 9; y++)
+            {
+                for (int x = 0; x < 9; x++)
+                {
+
+                    this.TrySolve(x, y);
+
+                }
+            }
+        }
+
+        private bool TrySolve(int x, int y)
+        {
+            if (this.gameBoard[x, y] != 0)
+            {
+                return false;
+            }
+
+            List<int> possibleNumbers = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+
+            foreach (int number in this.GetImpossibleNumbersFromColumn(x))
+            {
+                possibleNumbers.Remove(number);
+            }
+            
+
+        }
+
+        /// <summary>Här finns information</summary>
+        /// <param name="x">The column</param>
+        private List<int> GetImpossibleNumbersFromColumn(int x)
+        {
+            List<int> impossibleNumbers = new List<int>();
+
+            for (int y = 0; y < 9; y++)
+            {
+                if (this.gameBoard[x,y] != 0)
+                {
+                    impossibleNumbers.Add(this.gameBoard[x, y]);
+                }
+            }
+
+            return impossibleNumbers;
+        }
+
 
         public void PrintToScreen()
         {
@@ -57,7 +106,11 @@ namespace Sudoku_Grupp_L
 
                 }
 
+
+
             }
         }
     }
 }
+
+
