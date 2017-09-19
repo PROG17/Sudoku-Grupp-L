@@ -79,7 +79,7 @@ namespace Sudoku_Grupp_L
             Console.CursorVisible = false;
 
             //var game = new Sudoku(HARD);
-	        if (!WebSudoku.TryFetchSudoku(WebSudoku.Level.Hard, out WebSudoku game)) return;
+	        if (!WebSudoku.TryFetchSudoku(WebSudoku.Level.Evil, out WebSudoku game)) return;
 
 	        Console.Clear();
 

@@ -155,6 +155,7 @@ namespace Sudoku_Grupp_L
 
 					// Applicera "gissning"
 				    newBoard.gameBoard[ruta.x, ruta.y].num = possible;
+				    newBoard.gameBoard[ruta.x, ruta.y].isGuess = true;
 
 				    newBoard.depth = this.depth + 1;
 
@@ -179,11 +180,23 @@ namespace Sudoku_Grupp_L
 		    {
 			    for (int x = 0; x < 9; x++)
 			    {
-				    builder.Append(this.gameBoard[x,y].num);
-				}
+				    Ruta ruta = this.gameBoard[x,y];
+				    builder.Append(ruta.num);
+			    }
 			}
 
-			return new Sudoku(builder.ToString());
+		    var clone = new Sudoku(builder.ToString());
+			
+		    for (int y = 0; y < 9; y++)
+		    {
+			    for (int x = 0; x < 9; x++)
+			    {
+				    clone.gameBoard[x,y].isOriginal = this.gameBoard[x, y].isOriginal;
+				    clone.gameBoard[x,y].isGuess = this.gameBoard[x, y].isGuess;
+				}
+		    }
+
+			return clone;
 	    }
 
 		/// <summary>
@@ -275,10 +288,11 @@ namespace Sudoku_Grupp_L
 
         public virtual void PrintToScreen()
         {
+	        ConsoleColor gridColor;
             if (this.Processed)
-                Console.ForegroundColor = this.Solved ? ConsoleColor.Green : ConsoleColor.Red;
+                gridColor = this.Solved ? ConsoleColor.DarkGreen : ConsoleColor.Red;
             else
-                Console.ForegroundColor = ConsoleColor.Gray;
+                gridColor = ConsoleColor.Gray;
 
             const int width = 21;
             const int height = 11;
@@ -290,10 +304,13 @@ namespace Sudoku_Grupp_L
             {
                 for (int x = 0; x < 9; x++)
                 {
-                    Console.Write(this.gameBoard[x, y].DisplayNum + " ");
+					Ruta ruta = this.gameBoard[x, y];
+	                Console.ForegroundColor = ruta.DisplayColor;
+					Console.Write(ruta.DisplayNum + " ");
 
-                    if ((x % 3 == 2) && (x != 8))
-                    {
+	                if ((x % 3 == 2) && (x != 8))
+	                {
+		                Console.ForegroundColor = gridColor;
                         Console.Write("| ");
                     }
 
@@ -304,6 +321,7 @@ namespace Sudoku_Grupp_L
                 if ((y % 3 == 2) && (y != 8))
                 {
                     Console.CursorLeft = left;
+	                Console.ForegroundColor = gridColor;
                     Console.WriteLine("---------------------");
                 }
 

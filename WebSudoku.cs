@@ -99,6 +99,7 @@ namespace Sudoku_Grupp_L
 		{
 			base.PrintToScreen();
 
+			Console.ForegroundColor = ConsoleColor.Gray;
 			Console.SetCursorPosition(0,0);
 			Console.WriteLine("Difficulty: " + WebSudokuLevel);
 			Console.WriteLine("Source: " + WebSudokuLink);
