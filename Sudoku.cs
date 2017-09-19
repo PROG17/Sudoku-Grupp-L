@@ -13,14 +13,17 @@ namespace Sudoku_Grupp_L
     using System.Security.Cryptography.X509Certificates;
 
 	public class Sudoku
-    {
-	    private int depth = 0;
+	{
 
-        Ruta[,] gameBoard = new Ruta [9,9];
+		private const int DELAY_MILLISECONDS = 10;
+
         public bool Solved { get; private set; } = false;
         public bool Processed { get; private set; } = false;
 		public bool Invalid { get; private set; } = false;
-		public double TookSeconds { get; private set; }
+		public double TookSeconds { get; private set; } = -1;
+
+        private Ruta[,] gameBoard = new Ruta [9,9];
+	    private int depth = 0;
 
         public Sudoku(string numbersInput)
         {
@@ -77,7 +80,9 @@ namespace Sudoku_Grupp_L
 						{
 							anySolved = true;
 							this.PrintToScreen();
-							Thread.Sleep(50);
+
+							if (DELAY_MILLISECONDS > 0)
+								Thread.Sleep(DELAY_MILLISECONDS);
 						}
 						else if (this.gameBoard[x, y].num == 0)
 						{
@@ -108,7 +113,7 @@ namespace Sudoku_Grupp_L
 			this.Solved = allSolved;
 		}
 
-		private static void AssignUnique(List<Ruta> list)
+		private void AssignUnique(List<Ruta> list)
 		{
 			for (int n = 1; n <= 9; n++)
 			{
@@ -139,6 +144,10 @@ namespace Sudoku_Grupp_L
 				{
 					unikRuta.num = n;
 					unikRuta.possibles.Clear();
+
+					this.PrintToScreen();
+					if (DELAY_MILLISECONDS > 0)
+						Thread.Sleep(DELAY_MILLISECONDS);
 				}
 			}
 		}
@@ -159,8 +168,9 @@ namespace Sudoku_Grupp_L
 
 				    newBoard.depth = this.depth + 1;
 
-					if (depth < 4)
-						newBoard.PrintToScreen();
+					newBoard.PrintToScreen();
+					if (DELAY_MILLISECONDS > 0)
+						Thread.Sleep(DELAY_MILLISECONDS);
 
 				    if (newBoard.Solve())
 				    {
@@ -287,8 +297,8 @@ namespace Sudoku_Grupp_L
 	    }
 
         public virtual void PrintToScreen()
-        {
-	        ConsoleColor gridColor;
+		{
+			ConsoleColor gridColor;
             if (this.Processed)
                 gridColor = this.Solved ? ConsoleColor.DarkGreen : ConsoleColor.Red;
             else
@@ -327,7 +337,13 @@ namespace Sudoku_Grupp_L
 
                 Console.CursorLeft = left;
             }
-        }
+
+			if (this.Processed)
+			{
+				Console.WriteLine();
+				Console.WriteLine($"Took {this.TookSeconds} seconds to solve");
+			}
+		}
     }
 }
 
