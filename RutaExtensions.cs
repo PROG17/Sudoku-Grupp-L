@@ -24,5 +24,23 @@ namespace Sudoku_Grupp_L
 			return list;
 		}
 
+		private static readonly Random random = new Random();
+		public static IEnumerable<Ruta> InShuffledOrder(this Ruta[,] gameBoard)
+		{
+			var newList = new List<Ruta>(gameBoard.Cast<Ruta>());
+
+			int n = newList.Count;
+			while (n > 1)
+			{
+				n--;
+				int k = random.Next(n + 1);
+				Ruta value = newList[k];
+				newList[k] = newList[n];
+				newList[n] = value;
+			}
+
+			return newList;
+		}
+
 	}
 }

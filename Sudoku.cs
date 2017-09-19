@@ -154,7 +154,7 @@ namespace Sudoku_Grupp_L
 
 		private void SolveViaMethod2()
 	    {
-		    foreach (Ruta ruta in this.gameBoard)
+		    foreach (Ruta ruta in this.gameBoard.InShuffledOrder())
 		    {
 			    if (ruta.num != 0) continue;
 

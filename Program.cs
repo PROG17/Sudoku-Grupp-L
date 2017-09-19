@@ -12,8 +12,9 @@ namespace Sudoku_Grupp_L
         {
             Console.CursorVisible = false;
 
-	        WebSudoku.Level level = PromptForLevel();
-	        if (!WebSudoku.TryFetchSudoku(level, out WebSudoku game)) return;
+			WebSudoku.Level level = PromptForLevel();
+			if (!WebSudoku.TryFetchSudoku(level, out WebSudoku game)) return;
+			//Sudoku game = new Sudoku(new string(' ', 81));
 
 	        Console.Clear();
 
@@ -21,9 +22,9 @@ namespace Sudoku_Grupp_L
 	        Console.ReadKey();
 
 	        game.Solve();
-	        game.PrintToScreen();
+			game.PrintToScreen();
 
-	        Console.ReadLine();
+			Console.ReadLine();
         }
 
 	    private static WebSudoku.Level PromptForLevel()
