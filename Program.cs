@@ -9,77 +9,90 @@ namespace Sudoku_Grupp_L
 	internal class Program
     {
 	    private const string FREDRIKS =
-            "003020600" +
-            "900305001" +
-            "001806400" +
-            "008102900" +
-            "700000008" +
-            "006708200" +
-            "002609500" +
-            "800203009" +
-            "005010300";
+            "  3 2 6  " +
+            "9  3 5  1" +
+            "  18 64  " +
+            "  81 29  " +
+            "7       8" +
+            "  67 82  " +
+            "  26 95  " +
+            "8  2 3  9" +
+            "  5 1 3  ";
 
 	    private const string EASY =
-            "080502001" +
-            "031700925" +
-            "000000084" +
-            "756400200" +
-            "000906000" +
-            "002007643" +
-            "320000000" +
-            "578001430" +
-            "600304070";
+            " 8 5 2  1" +
+            " 317  925" +
+            "       84" +
+            "7564  2  " +
+            "   9 6   " +
+            "  2  7643" +
+            "32       " +
+            "578  143 " +
+            "6  3 4 7 ";
 
 	    private const string MEDIUM =
-            "070003400" +
-            "004500001" +
-            "600000039" +
-            "845200100" +
-            "000050000" +
-            "002008657" +
-            "480000002" +
-            "700009500" +
-            "006300080";
+            " 7   34  " +
+            "  45    1" +
+            "6      39" +
+            "8452  1  " +
+            "    5    " +
+            "  2  8657" +
+            "48      2" +
+            "7    95  " +
+            "  63   8 ";
 
 	    private const string HARD =
-            "000100085" +
-            "061500000" +
-            "000042001" +
-            "007800002" +
-            "028000430" +
-            "500009600" +
-            "100350000" +
-            "000008210" +
-            "870001000";
+            "   1   85" +
+            " 615     " +
+            "    42  1" +
+            "  78    2" +
+            " 28   43 " +
+            "5    96  " +
+            "1  35    " +
+            "     821 " +
+            "87   1   ";
 
 	    private const string EVIL =
-            "000079200" +
-            "930040010" +
-            "260000000" +
-            "003100400" +
-            "080000020" +
-            "002006700" +
-            "000000075" +
-            "070030081" +
-            "001860000";
+            "    792  " +
+            "93  4  1 " +
+            "26       " +
+            "  31  4  " +
+            " 8     2 " +
+            "  2  67  " +
+            "       75" +
+            " 7  3  81" +
+            "  186    ";
 
-	    private static void Main(string[] args)
+	    private const string EVELKNIEVEL =
+		    "         " +
+			"         " +
+			"         " +
+			"         " +
+			"         " +
+			"         " +
+			"         " +
+			"         " +
+			"         ";
+
+		private static void Main(string[] args)
         {
             Console.CursorVisible = false;
 
-            var game = new Sudoku(MEDIUM);
+            //var game = new Sudoku(HARD);
+	        if (!WebSudoku.TryFetchSudoku(WebSudoku.Level.Hard, out WebSudoku game)) return;
 
-            game.PrintToScreen();
-            Console.ReadKey();
+	        Console.Clear();
 
-            game.Solve();
-			game.PrintToScreen();
+	        game.PrintToScreen();
+	        Console.ReadKey();
 
-			Console.WriteLine();
-			Console.WriteLine($"Took {game.TookSeconds} seconds to solve");
+	        game.Solve();
+	        game.PrintToScreen();
 
-            Console.ReadLine();
-			
+	        Console.WriteLine();
+	        Console.WriteLine($"Took {game.TookSeconds} seconds to solve");
+
+	        Console.ReadLine();
         }
     }
 }

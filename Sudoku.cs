@@ -12,7 +12,7 @@ namespace Sudoku_Grupp_L
 {
     using System.Security.Cryptography.X509Certificates;
 
-    class Sudoku
+	public class Sudoku
     {
 	    private int depth = 0;
 
@@ -21,7 +21,7 @@ namespace Sudoku_Grupp_L
         public bool Processed { get; private set; } = false;
 		public bool Invalid { get; private set; } = false;
 		public double TookSeconds { get; private set; }
-		
+
         public Sudoku(string numbersInput)
         {
 			if (numbersInput.Length != 81)
@@ -273,7 +273,7 @@ namespace Sudoku_Grupp_L
 		    return list;
 	    }
 
-        public void PrintToScreen()
+        public virtual void PrintToScreen()
         {
             if (this.Processed)
                 Console.ForegroundColor = this.Solved ? ConsoleColor.Green : ConsoleColor.Red;

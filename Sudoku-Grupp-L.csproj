@@ -47,6 +47,7 @@
     <Compile Include="Ruta.cs" />
     <Compile Include="RutaExtensions.cs" />
     <Compile Include="Sudoku.cs" />
+    <Compile Include="WebSudoku.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
