@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Sudoku_Grupp_L
 {
-    class Program
+	internal class Program
     {
-        const string FREDRIKS =
+	    private const string FREDRIKS =
             "003020600" +
             "900305001" +
             "001806400" +
@@ -19,7 +19,7 @@ namespace Sudoku_Grupp_L
             "800203009" +
             "005010300";
 
-        const string EASY =
+	    private const string EASY =
             "080502001" +
             "031700925" +
             "000000084" +
@@ -30,7 +30,7 @@ namespace Sudoku_Grupp_L
             "578001430" +
             "600304070";
 
-        const string MEDIUM =
+	    private const string MEDIUM =
             "070003400" +
             "004500001" +
             "600000039" +
@@ -41,7 +41,7 @@ namespace Sudoku_Grupp_L
             "700009500" +
             "006300080";
 
-        const string HARD =
+	    private const string HARD =
             "000100085" +
             "061500000" +
             "000042001" +
@@ -52,7 +52,7 @@ namespace Sudoku_Grupp_L
             "000008210" +
             "870001000";
 
-        const string EVIL =
+	    private const string EVIL =
             "000079200" +
             "930040010" +
             "260000000" +
@@ -63,11 +63,11 @@ namespace Sudoku_Grupp_L
             "070030081" +
             "001860000";
 
-        static void Main(string[] args)
+	    private static void Main(string[] args)
         {
             Console.CursorVisible = false;
 
-            Sudoku game = new Sudoku(MEDIUM);
+            var game = new Sudoku(MEDIUM);
 
             game.PrintToScreen();
             Console.ReadKey();
@@ -75,7 +75,11 @@ namespace Sudoku_Grupp_L
             game.Solve();
 			game.PrintToScreen();
 
+			Console.WriteLine();
+			Console.WriteLine($"Took {game.TookSeconds} seconds to solve");
+
             Console.ReadLine();
+			
         }
     }
 }

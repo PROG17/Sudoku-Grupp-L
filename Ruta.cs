@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Sudoku_Grupp_L
 {
-	class Ruta
+	public class Ruta
 	{
 		public int num;
 		public List<int> possibles;

@@ -45,6 +45,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Ruta.cs" />
+    <Compile Include="RutaExtensions.cs" />
     <Compile Include="Sudoku.cs" />
   </ItemGroup>
   <ItemGroup>
