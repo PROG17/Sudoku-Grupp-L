@@ -73,6 +73,7 @@ namespace Sudoku_Grupp_L
             Console.ReadKey();
 
             game.Solve();
+			game.PrintToScreen();
 
             Console.ReadLine();
         }

@@ -10,9 +10,13 @@ namespace Sudoku_Grupp_L
 	{
 		public int num;
 		public List<int> possibles;
+		public readonly int x;
+		public readonly int y;
 
-		public Ruta(int num)
+		public Ruta(int x, int y, int num)
 		{
+			this.x = x;
+			this.y = y;
 			this.num = num;
 			this.possibles = new List<int>();
 		}

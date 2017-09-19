@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Threading;
 
@@ -14,7 +16,7 @@ namespace Sudoku_Grupp_L
         Ruta[,] gameBoard = new Ruta [9,9];
         public bool Solved { get; private set; } = false;
         public bool Processed { get; private set; } = false;
-
+		
         public Sudoku(string numbersInput)
         {
 			if (numbersInput.Length != 81)
@@ -23,10 +25,11 @@ namespace Sudoku_Grupp_L
             for (int i = 0; i < numbersInput.Length; i++)
             {
                 char number = numbersInput[i];
-                int.TryParse(number.ToString(), out int parsedNumber);
-                int x = i % 9;
-                int y = i / 9;
-                this.gameBoard[x, y] = new Ruta(parsedNumber);
+				// Tolka alla icke-siffror som 0
+	            int.TryParse(number.ToString(), out int parsedNumber);
+		        int x = i % 9;
+		        int y = i / 9;
+		        this.gameBoard[x, y] = new Ruta(x, y, parsedNumber);
             }
         }
 
@@ -34,9 +37,11 @@ namespace Sudoku_Grupp_L
 		{
 			SolveViaMethod1();
 
-			this.Processed = true;
 
-			this.PrintToScreen();
+			if (!this.Solved)
+				SolveViaMethod2();
+
+			this.Processed = true;
 
 			return this.Solved;
 		}
@@ -58,8 +63,8 @@ namespace Sudoku_Grupp_L
 						if (this.TrySolve(x, y))
 						{
 							anySolved = true;
-							this.PrintToScreen();
-							Thread.Sleep(50);
+							//this.PrintToScreen();
+							//Thread.Sleep(50);
 						}
 						else if (this.gameBoard[x, y].num == 0)
 						{
@@ -72,6 +77,48 @@ namespace Sudoku_Grupp_L
 			this.Solved = allSolved;
 		}
 
+	    private static readonly Random random = new Random();
+	    private void SolveViaMethod2()
+	    {
+		    foreach (Ruta ruta in this.gameBoard)
+		    {
+			    if (ruta.num != 0) continue;
+
+			    foreach (int possible in ruta.possibles)
+			    {
+				    Sudoku newBoard = this.Copy();
+
+					// Applicera "gissning"
+				    newBoard.gameBoard[ruta.x, ruta.y].num = possible;
+					if (random.Next(0,200) == 0)
+						newBoard.PrintToScreen();
+
+					newBoard.Solve();
+
+				    if (newBoard.Solved)
+				    {
+					    this.gameBoard = newBoard.gameBoard;
+					    this.Solved = true;
+					    return;
+				    }
+			    }
+		    }
+	    }
+
+	    public Sudoku Copy()
+	    {
+		    var builder = new StringBuilder(81);
+
+		    for (int y = 0; y < 9; y++)
+		    {
+			    for (int x = 0; x < 9; x++)
+			    {
+				    builder.Append(this.gameBoard[x,y].num);
+				}
+			}
+
+			return new Sudoku(builder.ToString());
+	    }
 
 		/// <summary>
 		/// The MASCHIIIIINE
