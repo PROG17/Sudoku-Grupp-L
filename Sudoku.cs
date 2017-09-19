@@ -11,71 +11,77 @@ namespace Sudoku_Grupp_L
 
     class Sudoku
     {
-        int[,] gameBoard = new int [9,9];
+        Ruta[,] gameBoard = new Ruta [9,9];
         public bool Solved { get; private set; } = false;
         public bool Processed { get; private set; } = false;
 
         public Sudoku(string numbersInput)
         {
+			if (numbersInput.Length != 81)
+				throw new ArgumentException("Fel längd på bräde! Måste vara 81 tecken långt", nameof(numbersInput));
+
             for (int i = 0; i < numbersInput.Length; i++)
             {
                 char number = numbersInput[i];
                 int.TryParse(number.ToString(), out int parsedNumber);
                 int x = i % 9;
                 int y = i / 9;
-                this.gameBoard[x, y] = parsedNumber;
-
+                this.gameBoard[x, y] = new Ruta(parsedNumber);
             }
-
         }
 
         public bool Solve()
+		{
+			SolveViaMethod1();
+
+			this.Processed = true;
+
+			this.PrintToScreen();
+
+			return this.Solved;
+		}
+
+		private void SolveViaMethod1()
+		{
+			bool anySolved = true;
+			bool allSolved = true;
+
+			while (anySolved)
+			{
+				anySolved = false;
+				allSolved = true;
+
+				for (int y = 0; y < 9; y++)
+				{
+					for (int x = 0; x < 9; x++)
+					{
+						if (this.TrySolve(x, y))
+						{
+							anySolved = true;
+							this.PrintToScreen();
+							Thread.Sleep(50);
+						}
+						else if (this.gameBoard[x, y].num == 0)
+						{
+							allSolved = false;
+						}
+					}
+				}
+			}
+
+			this.Solved = allSolved;
+		}
+
+
+		/// <summary>
+		/// The MASCHIIIIINE
+		/// </summary>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		/// <returns></returns>
+		private bool TrySolve(int x, int y)
         {
-            bool anySolved = true;
-            bool allSolved = true;
-            Random gen = new Random();
-
-            while(anySolved)
-            {
-                anySolved = false;
-                allSolved = true;
-
-                for (int y = 0; y < 9; y++)
-                {
-                    for (int x = 0; x < 9; x++)
-                    {
-                        if(this.TrySolve(x, y))
-                        {
-                            anySolved = true;
-                            this.PrintToScreen();
-                            Thread.Sleep(gen.Next(50,250));
-                        }
-                        else if (this.gameBoard[x,y] == 0)
-                        {
-                            allSolved = false;
-                        }
-                    }
-                }
-            }
-
-            this.Solved = allSolved;
-            this.Processed = true;
-
-            this.PrintToScreen();
-
-            return allSolved;
-        }
-
-
-        /// <summary>
-        /// The MASCHIIIIINE
-        /// </summary>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <returns></returns>
-        private bool TrySolve(int x, int y)
-        {
-            if (this.gameBoard[x, y] != 0)
+            if (this.gameBoard[x, y].num != 0)
             {
                 return false;
             }
@@ -99,11 +105,12 @@ namespace Sudoku_Grupp_L
 
             if (possibleNumbers.Count == 1)
             {
-                this.gameBoard[x, y] = possibleNumbers[0];
+                this.gameBoard[x, y].num = possibleNumbers[0];
                 return true;
             }
             else
             {
+	            this.gameBoard[x, y].possibles = possibleNumbers;
                 return false;
             }
         }
@@ -116,9 +123,9 @@ namespace Sudoku_Grupp_L
 
             for (int y = 0; y < 9; y++)
             {
-                if (this.gameBoard[x,y] != 0)
+                if (this.gameBoard[x,y].num != 0)
                 {
-                    impossibleNumbers.Add(this.gameBoard[x, y]);
+                    impossibleNumbers.Add(this.gameBoard[x, y].num);
                 }
             }
 
@@ -134,9 +141,9 @@ namespace Sudoku_Grupp_L
             List<int> impossibleNumbers = new List<int>();
             for (int x = 0; x < 9; x++)
             {
-                if (this.gameBoard[x, y] != 0)
+                if (this.gameBoard[x, y].num != 0)
                 {
-                    impossibleNumbers.Add(this.gameBoard[x, y]);
+                    impossibleNumbers.Add(this.gameBoard[x, y].num);
                 }                
             }
             return impossibleNumbers;
@@ -154,9 +161,9 @@ namespace Sudoku_Grupp_L
                 {
                     int yReal = y + yOffset;
                     int xReal = x + xOffset;
-                    if (this.gameBoard[xReal, yReal] !=0)
+                    if (this.gameBoard[xReal, yReal].num !=0)
                     {
-                        impossibleNumbers.Add(this.gameBoard[xReal, yReal]);
+                        impossibleNumbers.Add(this.gameBoard[xReal, yReal].num);
                     }
                 }
             }
@@ -180,15 +187,7 @@ namespace Sudoku_Grupp_L
             {
                 for (int x = 0; x < 9; x++)
                 {
-                    if (this.gameBoard[x,y] == 0)
-                    {
-                        Console.Write("  ");
-                    }
-                    else
-                    {
-                        Console.Write(this.gameBoard[x, y] + " ");
-
-                    }
+                    Console.Write(this.gameBoard[x, y].DisplayNum + " ");
 
                     if ((x % 3 == 2) && (x != 8))
                     {
