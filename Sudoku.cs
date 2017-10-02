@@ -182,20 +182,25 @@ namespace Sudoku_Grupp_L
 		    }
 	    }
 
-	    public Sudoku Copy()
-	    {
-		    var builder = new StringBuilder(81);
+		public string ConvertToString()
+		{
+			var builder = new StringBuilder(81);
 
-		    for (int y = 0; y < 9; y++)
-		    {
-			    for (int x = 0; x < 9; x++)
-			    {
-				    Ruta ruta = this.gameBoard[x,y];
-				    builder.Append(ruta.num);
-			    }
+			for (int y = 0; y < 9; y++)
+			{
+				for (int x = 0; x < 9; x++)
+				{
+					Ruta ruta = this.gameBoard[x, y];
+					builder.Append(ruta.num);
+				}
 			}
 
-		    var clone = new Sudoku(builder.ToString());
+			return builder.ToString();
+		}
+
+	    public Sudoku Copy()
+	    {
+		    var clone = new Sudoku(ConvertToString());
 			
 		    for (int y = 0; y < 9; y++)
 		    {
